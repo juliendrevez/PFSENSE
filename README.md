@@ -2,13 +2,12 @@
 Auteur : Julien  
 Classe : SIO2
 Dépôt GitHub :  https://github.com/juliendrevez/PFSENSE
-🧩 1. Objectif du TP
-Ce TP consiste à mettre en place une architecture réseau sécurisée comprenant :
-un pare‑feu pfSense
-une DMZ
-un serveur Apache dans la DMZ
-une règle NAT permettant d’accéder au serveur depuis le WAN
-une isolation stricte entre LAN / DMZ / WAN
+
+Schéma infrastructure réseau : 
+
+<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/00c42154-cfd2-4ae9-9c97-c0b0cad54cc5" />
+
+
 
  Interface  IP  Rôle 
  WAN ->  192.168.20.194/24 -> Accès depuis le réseau du lycée 
