@@ -56,7 +56,7 @@ Règle pour ouvrir l'accès vers la DMZ depuis le réseau :
 
 ## 4. Config du serveur Apache (DMZ)
 
-Sur la VM Debian en DMZ : on change la carte réseau dans Hyperviseur/Proxmox pour la basculer sur le vSwitch de la DMZ. On passe ensuite la VM en IP statique (`192.168.30.12`).
+Sur la VM Debian en DMZ : on change la carte réseau dans le Proxmox pour celui de la DMZ. On passe ensuite la VM en IP statique (`192.168.30.12`).
 
 <p align="center">
   <img width="393" height="286" alt="Carte réseau VM" src="https://github.com/user-attachments/assets/48ca1c06-eb1e-4c17-9976-dccde490d9d3" />
@@ -93,7 +93,7 @@ Depuis le poste client (`192.168.20.59`), en tapant l'IP WAN de pfSense (`192.16
 
 ---
 
-## 7. Partie 2 : Configuration du Bureau Distant (RDP)
+##  Partie 2 : Configuration du Bureau Distant (RDP)
 
 ### VM Windows Server
 J'ai créé une VM Windows Server connectée à l'interface `vmbrjudmz` (DMZ).  
