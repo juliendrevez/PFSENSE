@@ -7,7 +7,7 @@
 
 ## 1. Schéma de l'infrastructure
 
-Voici le schéma réseau global de la maquette :
+Voici le schéma de l'infrastructure réseau :
 
 <p align="center">
   <img width="650" alt="Schéma réseau" src="https://github.com/user-attachments/assets/00c42154-cfd2-4ae9-9c97-c0b0cad54cc5" />
