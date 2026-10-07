@@ -1,90 +1,111 @@
-📘 Projet DMZ – pfSense + Apache
-Auteur : Julien  
-Classe : SIO2
-Dépôt GitHub :  https://github.com/juliendrevez/PFSENSE
+# 📘 Projet DMZ – pfSense + Apache & Windows Server (RDP)
 
-Schéma infrastructure réseau : 
+> **Auteur :** Julien  
+> **Classe :** SIO2  
+> **Dépôt GitHub :** [github.com/juliendrevez/PFSENSE](https://github.com/juliendrevez/PFSENSE)
 
-<img width="1536" height="1024" alt="image" src="https://github.com/user-attachments/assets/00c42154-cfd2-4ae9-9c97-c0b0cad54cc5" />
+---
 
+## 📐 1. Schéma infrastructure réseau
 
+<p align="center">
+  <img width="650" alt="Schéma Infrastructure Réseau" src="https://github.com/user-attachments/assets/00c42154-cfd2-4ae9-9c97-c0b0cad54cc5" />
+</p>
 
- Interface  IP  Rôle 
- WAN ->  192.168.20.194/24 -> Accès depuis le réseau du lycée 
- LAN -> 192.168.12.1/24 -> Administration
- DMZ -> 192.168.30.1/24 -> Hébergement du serveur Apache
- Serveur Apache -> 192.168.30.12 ->  Service web|
- PC client (lycée) -> 192.168.20.59 -> Accès WAN 
+---
 
- 🔧 3. Configuration pfSense
-3.1 Interfaces
-Configuration réalisée dans Interfaces → Assignments :
-WAN : DHCP (192.168.20.194)
-LAN : 192.168.12.1/24
-DMZ : 192.168.30.1/24
-3.2 Règles Firewall
-🔹 Règle NAT (WAN → DMZ)
+## 📊 2. Plan d'adressage IP
+
+| Équipement / Interface | Adresse IP / Masque | Rôle & Description |
+| :--- | :--- | :--- |
+| **WAN (pfSense)** | `192.168.20.194/24` | Accès depuis le réseau du lycée (Internet TP) |
+| **LAN (pfSense)** | `192.168.12.1/24` | Réseau d'administration interne |
+| **DMZ (pfSense)** | `192.168.30.1/24` | Passerelle de la zone démilitarisée (Serveurs) |
+| **Serveur Apache** | `192.168.30.12/24` | Service Web HTTP (Debian) |
+| **Windows Server** | `192.168.30.20/24` | Service Bureau à distance RDP |
+| **PC Client (Lycée)** | `192.168.20.59/24` | Poste client sur le réseau WAN |
+
+---
+
+## 🔧 3. Configuration pfSense
+
+### 3.1 Interfaces
+Configuration réalisée dans **Interfaces → Assignments** :
+* **WAN :** DHCP (`192.168.20.194`)
+* **LAN :** `192.168.12.1/24`
+* **DMZ :** `192.168.30.1/24`
+
+### 3.2 Règles Firewall & NAT
+
+#### 🔹 Règle NAT (WAN → DMZ)
 Permet d’accéder au serveur Apache depuis le WAN :
+
 <img width="1052" height="571" alt="natrule" src="https://github.com/user-attachments/assets/6ee6932a-ec3d-47f1-a4a7-b01154918555" />
-🔹 Règles WAN
-Règle permettant au WAN d’accéder au serveur Apache qui a pour ip 192.168.30.12
+
+#### 🔹 Règles WAN
+Règle permettant au WAN d’accéder au serveur Apache (`192.168.30.12`) :
 
 <img width="647" height="586" alt="wanrule" src="https://github.com/user-attachments/assets/dab75202-517a-4137-ad59-03ce01955bb0" />
 
-
-Règle permettant qu'on puisse depuis le réseau avoir accès au DMZ 
+Règle permettant qu'on puisse depuis le réseau avoir accès à la DMZ :
 
 <img width="753" height="547" alt="image" src="https://github.com/user-attachments/assets/bd6935b1-b66b-431d-b870-c67fe7997ead" />
 
+---
 
-🌐 4. Configuration du serveur Apache (DMZ)
-Sur la VM Debian dans la DMZ. Une fois fait, on vient changer la carte réseau et mettre la même que celle du DMZ, le but est donc de bloquer, et ensuite de modifier l'adresse ip statique.
+## 🌐 4. Configuration du serveur Apache (DMZ)
 
-<img width="393" height="286" alt="image" src="https://github.com/user-attachments/assets/48ca1c06-eb1e-4c17-9976-dccde490d9d3" />
+Réalisé sur la VM Debian située dans la DMZ.  
+Une fois fait, on vient changer la carte réseau et mettre la même que celle de la DMZ. Le but est donc de bloquer, puis de modifier l'adresse IP en statique.
 
+<p align="center">
+  <img width="393" height="286" alt="Carte réseau VM Debian" src="https://github.com/user-attachments/assets/48ca1c06-eb1e-4c17-9976-dccde490d9d3" />
+</p>
 
-<img width="322" height="20" alt="apache" src="https://github.com/user-attachments/assets/50f13c50-e3c1-4faf-a866-233c02e3ae28" />
+<p align="center">
+  <img width="322" height="20" alt="Apache status" src="https://github.com/user-attachments/assets/50f13c50-e3c1-4faf-a866-233c02e3ae28" />
+</p>
 
-🔁 5. Tests de fonctionnement
-✔ Test depuis pfSense (Diagnostics → Test Port)
+---
 
-<img width="722" height="472" alt="image" src="https://github.com/user-attachments/assets/e634b0ce-1c9d-40f2-8398-2460c6010faa" />
+## 🔁 5. Tests de fonctionnement
 
-✔ Test depuis le PC du lycée
-Le résultat doit donc être la page apache (car rien d'autre installer sur le lamp donc c'est normal que l'on arrive sur sa !)
+### ✔ Test depuis pfSense
+*(Diagnostics → Test Port)*
 
-<img width="1238" height="937" alt="image" src="https://github.com/user-attachments/assets/f45b4d15-1037-4f8a-b153-f7f9e2ad9ad7" />
+<img width="722" height="472" alt="Test Port pfSense" src="https://github.com/user-attachments/assets/e634b0ce-1c9d-40f2-8398-2460c6010faa" />
 
-🔐 6. Sécurité
-DMZ isolée du LAN donc pas de risque avec le DHCP de la salle SISR.
+### ✔ Test depuis le PC du lycée
+> Le résultat doit être la page par défaut Apache (car rien d'autre d'installé sur le serveur LAMP, ce qui est tout à fait normal !).
 
-NAT uniquement sur le port 80 car Apache n'a besoin que de celui la, en ouvrir d'autre serait une prise de risque pour la DMZ
+<img width="1238" height="937" alt="Test web client" src="https://github.com/user-attachments/assets/f45b4d15-1037-4f8a-b153-f7f9e2ad9ad7" />
 
-Règles WAN restrictives car c'est la seule interface exposée au réseau exterieur à celui ou est la DMZ ( donc le réseau de la salle SISR par exemple). Le but est donc de bloquer tout ce qui n'est pas du HTTP/HTTPS pour éviter les risques d'attaques
+---
 
+## 🔐 6. Sécurité & Bonnes Pratiques
 
-Pas d’accès SSH depuis WAN car il pourrait permettre d'administrer le serveur depuis l'extérieur et ce n'est pas ce que l'on veut et doit donc se faire uniquement depuis le LAN
+* **Isolation :** DMZ isolée du LAN (aucun risque d'interférence avec le DHCP de la salle SISR).
+* **Minimisation des accès :** NAT uniquement sur le port 80 pour Apache (en ouvrir d'autres présenterait un risque inutile pour la DMZ).
+* **Règles WAN restrictives :** C'est la seule interface exposée au réseau extérieur (réseau de la salle SISR). Le but est de bloquer tout ce qui n'est pas du HTTP/HTTPS pour éviter les attaques.
+* **Pas d’accès SSH depuis le WAN :** L'administration à distance depuis l'extérieur est interdite ; elle doit se faire exclusivement depuis le LAN admin.
 
-Partie 2 : Mise en place d'un bureau distant sous PFSense
+---
 
-J’ai créé une VM Windows Server dans Proxmox et je l’ai connectée à l’interface réseau vmbrjudmz, qui correspond au réseau DMZ.
+## 🖥️ 7. Partie 2 : Mise en place d'un Bureau Distant (RDP)
 
-J’ai ensuite configuré une IP statique dans la plage DMZ . Une IP statique est obligatoire pour pouvoir faire un NAT propre ensuite et que tout le monde puisse y accéder avec une IP donner. 
-<img width="397" height="455" alt="Ip windows serveur " src="https://github.com/user-attachments/assets/53a50e17-8efb-4283-a62d-689fe2db51f8" />
+### 7.1 Configuration de la VM Windows Server
 
+J’ai créé une VM Windows Server dans Proxmox et je l’ai connectée à l’interface réseau `vmbrjudmz`, qui correspond au réseau DMZ.
 
-Activation du Bureau à distance : 
+J’ai ensuite configuré une IP statique dans la plage DMZ. Une IP statique est obligatoire pour faire un NAT propre et garantir que tout le monde puisse y accéder via une adresse fixe.
 
-Dans Windows Server, j’ai activé le Bureau à distance via le Gestionnaire de serveur.
-Le pare‑feu Windows autorise automatiquement le port 3389, donc aucune règle supplémentaire n’a été nécessaire.
-<img width="992" height="465" alt="Activation Bureau a Distance dans la VM winserv" src="https://github.com/user-attachments/assets/849b9b14-900b-41b9-ad25-066e2ff5b0c7" />
+<p align="center">
+  <img width="397" height="455" alt="Ip windows serveur" src="https://github.com/user-attachments/assets/53a50e17-8efb-4283-a62d-689fe2db51f8" />
+</p>
 
-Règle NAT sur pfsense ( WAN -> DMZ)
+### 7.2 Activation du Bureau à distance
 
-Pour rendre le serveur accessible depuis le réseau du lycée (considéré comme Internet dans le TP), j’ai créé une règle NAT sur l’interface WAN.
-J’ai choisi un port WAN différent du port RDP par défaut, comme demandé dans le cahier des charges.
-<img width="916" height="571" alt="Configuration WAN dans le DMZ" src="https://github.com/user-attachments/assets/cb7e7dca-40df-40da-aa69-b8b405f3573a" />
+Dans Windows Server, j’ai activé le Bureau à distance via le **Gestionnaire de serveur**.  
+Le pare-feu Windows autorise automatiquement le port `3389`, aucune règle supplémentaire sur l'hôte n'a été nécessaire.
 
-Une fois cela fait, on peut donc depuis une machine du réseau essayer de se connecter en bureau a distance .
-<img width="406" height="241" alt="tentative connexion a distance" src="https://github.com/user-attachments/assets/7473852d-cab4-48a7-b05d-fd2603c2ed2d" />
-<img width="1272" height="810" alt="Connexion a distance réussi ! " src="https://github.com/user-attachments/assets/3909dde0-3c01-4fea-b689-5fa13eb18836" />
+<img width="992" height="465" alt="Activation Bureau a Distance dans la VM winserv" src="
