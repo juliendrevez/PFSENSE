@@ -39,7 +39,11 @@ Règle permettant qu'on puisse depuis le réseau avoir accès au DMZ
 
 
 🌐 4. Configuration du serveur Apache (DMZ)
-Sur la VM Debian dans la DMZ :
+Sur la VM Debian dans la DMZ. Une fois fait, on vient changer la carte réseau et mettre la même que celle du DMZ, le but est donc de bloquer, et ensuite de modifier l'adresse ip statique.
+
+<img width="393" height="286" alt="image" src="https://github.com/user-attachments/assets/48ca1c06-eb1e-4c17-9976-dccde490d9d3" />
+
+
 <img width="322" height="20" alt="apache" src="https://github.com/user-attachments/assets/50f13c50-e3c1-4faf-a866-233c02e3ae28" />
 
 🔁 5. Tests de fonctionnement
