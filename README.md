@@ -30,6 +30,9 @@ Permet d’accéder au serveur Apache depuis le WAN :
 🔹 Règles WAN
 Règle permettant au WAN d’accéder au serveur Apache qui a pour ip 192.168.30.12
 <img width="647" height="586" alt="wanrule" src="https://github.com/user-attachments/assets/dab75202-517a-4137-ad59-03ce01955bb0" />
+Règle permettant qu'on puisse depuis le réseau avoir accès au DMZ 
+<img width="753" height="547" alt="image" src="https://github.com/user-attachments/assets/bd6935b1-b66b-431d-b870-c67fe7997ead" />
+
 
 🌐 4. Configuration du serveur Apache (DMZ)
 Sur la VM Debian dans la DMZ :
